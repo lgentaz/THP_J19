@@ -23,22 +23,23 @@ class Game
 		@@screen = Show.new(@board.all_cases)
 	end
 	
+# Selectionne qui jour le tour
 	def status
 		@@screen = Show.new(@board.all_cases)
 		@@screen.play
-		if @rounds == 10
+		if @rounds == 10 # si nombre de tour est superieur à neuf. La partie s'arrête.
 			@@ended = true
 			puts ""
 			self.end
 			return "0"
-		elsif @rounds.odd? && @rounds < 10
+		elsif @rounds.odd? && @rounds < 10 # si le tour est pair, le joueur 1 joue
 			puts ""
 			puts "   A ton tour #{@player1.name}"
 			play = self.turn(@player1)
 			if play == "won"
 				return @player1.name
 			end
-		elsif @rounds.even? && @rounds < 10
+		elsif @rounds.even? && @rounds < 10 # si le tour est pair, le joueur 2 joue
 			puts ""
 			puts "   A ton tour #{@player2.name}"
 			play = self.turn(@player2)
@@ -49,6 +50,7 @@ class Game
 
 	end
 
+# Joue 1 tour pour 1 joueur
 	def turn(player)
 		puts ""
 		puts "   Choisis une case"
@@ -56,7 +58,7 @@ class Game
 		print "     > "
 		played = gets.chomp.upcase
 		puts ""
-		while !is_valid?(played) || !is_empty?(played) do
+		while !is_valid?(played) || !is_empty?(played) do # Controle la valeur rentrée
 			puts "   Entres un autre choix"
 			puts ""
 			print "   > "
@@ -77,10 +79,9 @@ class Game
 			@@ended = true
 			return "won"
 		end
-
-
 	end
 
+# Verifie si la proposition correspond à une case
 	def is_valid?(choice)
 		@board.all_cases.each do |i|
 			if choice == i.position
@@ -95,6 +96,7 @@ class Game
 		end
 	end
 
+# Verifie que la case ne soit pas déjà rempli
 	def is_empty?(choice)
 		@board.all_cases.each do |i|
 			if choice == i.position
@@ -111,6 +113,7 @@ class Game
 		end
 	end
 
+# Contrôle les possibilités de victoire
 	def win?
 		if @board.a1.symbol == @board.a2.symbol && @board.a1.symbol == @board.a3.symbol && @board.a1.symbol != " "
 			return true
@@ -133,7 +136,7 @@ class Game
 		end
 	end
 
-
+# Controle que le jeu soit terminé
 	def end
 		if @@ended
 			return true

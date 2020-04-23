@@ -21,10 +21,12 @@ end
 
 puts ""
 
+# Nombre de parties jouées
 puts "Nombre total de parties : #{overall_rounds}." 
 
 puts ""
 
+# Test: qui a gagné le plus de parties
 first_player = overall_win.count(tic_tac_toe.game.player1.name)
 second_player = overall_win.count(tic_tac_toe.game.player2.name)
 if first_player > second_player
