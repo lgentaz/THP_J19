@@ -1,12 +1,11 @@
 require 'pry'
-#require_relative 'app'
 require_relative 'board'
-#require_relative 'board_case'
 require_relative 'game'
-#require_relative 'player'
 
 class Show
 
+# Initialise des valeurs pour chacune position de la grille graphique et les associe au tableau des	cases
+# plus spécifiquement les symboles qu'il contient; cf board.rb et board_case.rb
 	def initialize(arr)
 		@a1 = arr[0].symbol
 		@a2 = arr[1].symbol
@@ -19,6 +18,7 @@ class Show
 		@c3 = arr[8].symbol
 	end
 	
+# Ecriture de la grille dans le terminal
 	def grid
 		puts " " * 12 + "1" + " " * 5 + "2" + " " * 5 + "3"
 		puts " " * 11 + "---" + " " * 3 + "---" + " " * 3 + "---"
@@ -33,6 +33,7 @@ class Show
 		puts " "
 	end
 
+# Rafraichissement de la page en début de partie
 	def start
 		system "clear"
 		self.top
@@ -40,6 +41,7 @@ class Show
 	end	
 
 
+# En-tête du jeu (toujours présente)
 	def top
 		puts ""
 		puts " " * 10 + "-" * 51
@@ -49,6 +51,7 @@ class Show
 		puts ""
 	end
 
+# Rafraichissement de la page en cours de partie, mise a jour des cases jouées
 	def play
 		system "clear"
 		self.top

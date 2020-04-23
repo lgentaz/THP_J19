@@ -6,6 +6,8 @@ require_relative 'player'
 require_relative 'show'
 
 class App
+
+#Iniitalise l'application qui code le déroulement des parties, régit l'affichage, la grille de jeu et la manche (game)
 	attr_accessor :game, :screen
 	@@over = false
 	@@match_win = ""
@@ -17,6 +19,7 @@ class App
 		@game = Game.new(pseudos[0],pseudos[1])
 	end
 
+# Affichage du menu d'identification des joueurs
 	def choose_names
 		@screen.start
 		puts "   Tout le monde est prêt?"
@@ -40,22 +43,24 @@ class App
 		return pseudo1, pseudo2
 	end
 
+# Partie en cours
 	def match
-		while !@game.end && @game.rounds < 10
-			@@match_win = @game.status
+		while !@game.end && @game.rounds < 10 # Temps que la partie n'est pas gagné ou que tous les tours ne sont pas fini
+			@@match_win = @game.status #Lance une manche
 		end
 		puts ""
 		puts "   La partie est terminée."
 		sleep (2)
 	end
 
+# Demande si l'on joue une nouvelle partie
 	def again?
 		@screen.start
 		puts "   On fait la revanche ? "
 		puts ""
 		print "   Y / N ?"
 		answer = gets.chomp.upcase
-		if answer == "Y"
+		if answer == "Y"    #si oui
 			puts ""
 			puts "   C'est parti!"
 			puts ""
@@ -65,18 +70,19 @@ class App
 			second = @game.player2.name
 			@game = Game.new(second,premier)
 			puts ""
-			puts "   #{second}, tu commences avec les croix"
+			puts "   #{second}, tu commences avec les croix."
 			@game.player2.name = premier
 			sleep(1)
 			puts ""
-			puts "   #{premier}, tu prends les ronds"
+			puts "   #{premier}, tu prends les ronds."
 			puts ""
 			sleep(1.5)
-		else
+		else                #si non
 			@@over = true
 		end
 	end
 
+# Prend en compte le résultat de la demande de nouvelle partie
 	def continue
 		if @@over == true
 			return false
@@ -85,6 +91,7 @@ class App
 		end
 	end
 
+# Renvoie quel joueur à gagné la partie pour le compteur général
 	def won?
 		return @@match_win
 	end

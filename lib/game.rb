@@ -5,7 +5,9 @@ require_relative 'player'
 
 class Game
 
+# Initialise la manche du jeu en créant différents joueurs, régit l'affichage et la grille de jeu
 	attr_accessor :player1, :player2, :board, :rounds
+# Remet les compteurs à zéro lors d'une nouvelle partie
 	@@valid = false
 	@@empty = false
 	@@ended = false
@@ -27,7 +29,6 @@ class Game
 		if @rounds == 10
 			@@ended = true
 			puts ""
-			puts "   Egalité"			
 			self.end
 			return "0"
 		elsif @rounds.odd? && @rounds < 10
@@ -76,6 +77,7 @@ class Game
 			@@ended = true
 			return "won"
 		end
+
 
 	end
 
