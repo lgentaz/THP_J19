@@ -6,7 +6,7 @@ class BoardCase
 		
 	def initialize(coordinates)
 		@position = coordinates
-		@symbol = ""
+		@symbol = " "
 	end
  
  end

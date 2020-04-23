@@ -6,51 +6,72 @@ require_relative 'player'
 require_relative 'show'
 
 class App
-	attr_accessor :game, :new_display
+	attr_accessor :game, :screen
 	@@over = false
+	@@match_win = ""
 		
 	def initialize
+		@board_init = Board.new
+		@screen = Show.new(@board_init.all_cases)
 		pseudos = self.choose_names
 		@game = Game.new(pseudos[0],pseudos[1])
-		@new_display = Show.new
 	end
 
 	def choose_names
-		puts "Vous êtes tous les deux prêts?"
-		puts "Qui prend les croix ?"
-		print "ton p'tit nom >"
+		@screen.start
+		puts "   Tout le monde est prêt?"
+		puts ""
+		puts "   Qui prend les croix ?"
+		puts ""
+		print "     >  "
 		pseudo1 = gets.chomp
 		puts ""
-		puts "Qui prend les ronds ?"
-		print "ton p'tit nom aussi >"
+		puts "   Qui prend les ronds ?"
+		puts ""
+		print "     >  "
 		pseudo2 = gets.chomp
 		puts ""
-		puts "Ready les p'tits loups ?"
 		puts ""
-		puts pseudo1 + " commence..."
+		puts "   Ready les p'tits loups ?"
+		puts ""
+		sleep(1)
+		puts "   " +pseudo1 + ", tu commences..."
+		sleep(1.5)
 		return pseudo1, pseudo2
 	end
 
 	def match
 		while !@game.end && @game.rounds < 10
-			@game.status
+			@@match_win = @game.status
 		end
-		puts "La partie est terminée."
+		puts ""
+		puts "   La partie est terminée."
+		sleep (2)
 	end
 
 	def again?
-		puts "On fait la revanche ? "
-		print "Y / N ?"
+		@screen.start
+		puts "   On fait la revanche ? "
+		puts ""
+		print "   Y / N ?"
 		answer = gets.chomp.upcase
 		if answer == "Y"
-			puts "C'est parti!"
-			puts "On change de tour"
+			puts ""
+			puts "   C'est parti!"
+			puts ""
+			puts "   Cette fois, on change de tour"
+			sleep(1)
 			premier = @game.player1.name
 			second = @game.player2.name
 			@game = Game.new(second,premier)
-			puts "#{second}, tu prends les croix"
+			puts ""
+			puts "   #{second}, tu commences avec les croix"
 			@game.player2.name = premier
-			puts "#{premier}, tu prends les ronds"
+			sleep(1)
+			puts ""
+			puts "   #{premier}, tu prends les ronds"
+			puts ""
+			sleep(1.5)
 		else
 			@@over = true
 		end
@@ -62,6 +83,10 @@ class App
 		else
 			return true
 		end
+	end
+
+	def won?
+		return @@match_win
 	end
 
 end

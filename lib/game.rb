@@ -18,29 +18,49 @@ class Game
 		@@valid = false
 		@@empty = false
 		@@ended = false
+		@@screen = Show.new(@board.all_cases)
 	end
 	
 	def status
+		@@screen = Show.new(@board.all_cases)
+		@@screen.play
 		if @rounds == 10
 			@@ended = true
+			puts ""
+			puts "   Egalité"			
 			self.end
+			return "0"
 		elsif @rounds.odd? && @rounds < 10
-			puts "#{@player1.name}, à ton tour..."
-			self.turn(@player1)
+			puts ""
+			puts "   A ton tour #{@player1.name}"
+			play = self.turn(@player1)
+			if play == "won"
+				return @player1.name
+			end
 		elsif @rounds.even? && @rounds < 10
-			"#{@player2.name} , à ton tour..."
-			self.turn(@player2)
+			puts ""
+			puts "   A ton tour #{@player2.name}"
+			play = self.turn(@player2)
+			if play == "won"
+				return @player1.name
+			end
 		end
+
 	end
 
 	def turn(player)
-		puts "Choisis une case #{player.name}"
-		print "> "
+		puts ""
+		puts "   Choisis une case"
+		puts ""
+		print "     > "
 		played = gets.chomp.upcase
+		puts ""
 		while !is_valid?(played) || !is_empty?(played) do
-			puts "Entres un autre choix"
-			print "> "
+			puts "   Entres un autre choix"
+			puts ""
+			print "   > "
 			played = gets.chomp.upcase
+			puts ""
 		end
 		@@valid = false
 		@@empty = false
@@ -51,8 +71,10 @@ class Game
 		end
 		@rounds += 1
 		if self.win?
-			puts "Bravo #{player.name}, tu as remporté la partie !!!"
+			@@screen.play
+			puts "   Bravo #{player.name}, tu as remporté la partie !!!"
 			@@ended = true
+			return "won"
 		end
 
 	end
@@ -64,7 +86,8 @@ class Game
 			end
 		end
 		if @@valid == false
-			puts "Coordonnée non trouvée."
+			puts "   Coordonnée non trouvée."
+			puts ""
 		else
 			return @@valid
 		end
@@ -73,34 +96,35 @@ class Game
 	def is_empty?(choice)
 		@board.all_cases.each do |i|
 			if choice == i.position
-				if i.symbol == ""
+				if i.symbol == " "
 					@@empty = true
 				end
 			end
 		end
 		if @@empty == false
-			puts "Case déjà prise."
+			puts "   Case déjà prise."
+			puts ""
 		else
 			return @@empty
 		end
 	end
 
 	def win?
-		if @board.a1.symbol == @board.a2.symbol && @board.a1.symbol == @board.a3.symbol && @board.a1.symbol != ""
+		if @board.a1.symbol == @board.a2.symbol && @board.a1.symbol == @board.a3.symbol && @board.a1.symbol != " "
 			return true
-		elsif @board.b1.symbol == @board.b2.symbol && @board.b1.symbol == @board.b3.symbol && @board.b1.symbol != ""
+		elsif @board.b1.symbol == @board.b2.symbol && @board.b1.symbol == @board.b3.symbol && @board.b1.symbol != " "
 			return true
-		elsif @board.c1.symbol == @board.c2.symbol && @board.c1.symbol == @board.c3.symbol && @board.c1.symbol != ""
+		elsif @board.c1.symbol == @board.c2.symbol && @board.c1.symbol == @board.c3.symbol && @board.c1.symbol != " "
 			return true
-		elsif @board.a1.symbol == @board.b1.symbol && @board.a1.symbol == @board.c1.symbol && @board.a1.symbol != ""
+		elsif @board.a1.symbol == @board.b1.symbol && @board.a1.symbol == @board.c1.symbol && @board.a1.symbol != " "
 			return true
-		elsif @board.b2.symbol == @board.a2.symbol && @board.b2.symbol == @board.c2.symbol && @board.a2.symbol != ""
+		elsif @board.b2.symbol == @board.a2.symbol && @board.b2.symbol == @board.c2.symbol && @board.a2.symbol != " "
 			return true
-		elsif @board.b3.symbol == @board.c3.symbol && @board.b3.symbol == @board.a3.symbol && @board.a3.symbol != ""
+		elsif @board.b3.symbol == @board.c3.symbol && @board.b3.symbol == @board.a3.symbol && @board.a3.symbol != " "
 			return true
-		elsif @board.a1.symbol == @board.b2.symbol && @board.a1.symbol == @board.c3.symbol && @board.a1.symbol != ""
+		elsif @board.a1.symbol == @board.b2.symbol && @board.a1.symbol == @board.c3.symbol && @board.a1.symbol != " "
 			return true
-		elsif @board.c1.symbol == @board.b2.symbol && @board.b2.symbol == @board.a3.symbol && @board.c1.symbol != ""
+		elsif @board.c1.symbol == @board.b2.symbol && @board.b2.symbol == @board.a3.symbol && @board.c1.symbol != " "
 			return true
 		else
 			return false
