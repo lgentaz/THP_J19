@@ -1,17 +1,12 @@
 require 'pry'
-require_relative 'application'
-require_relative 'board'
-require_relative 'board_case'
-require_relative 'game'
-require_relative 'show'
 
-class Player# < ParentClass
+class Player
 
-	attr_accessor
+	attr_accessor :name, :symbol
 		
-	def initialize(args)
-		
-	end
-	
+	def initialize(pseudo, symb)
+		@name = pseudo
+		@symbol = symb
+	end	
 	
 end

@@ -1,17 +1,12 @@
 require 'pry'
-require_relative 'application'
-require_relative 'board'
-require_relative 'game'
-require_relative 'player'
-require_relative 'show'
 
-class BoardCase# < ParentClass
+class BoardCase
 
-	attr_accessor
+	attr_accessor :position, :symbol
 		
-	def initialize(args)
-		
+	def initialize(coordinates)
+		@position = coordinates
+		@symbol = ""
 	end
-	
-	
-end
+ 
+ end
